@@ -20,3 +20,16 @@
 
 #pragma once
 
+// The intxBuffer keeps track of a read or write process
+typedef struct {
+	void *data;
+	struct {
+		int byte, bit;
+	} position;
+} intxBuffer;
+
+// Creates a buffer in the location pointed to by buffer which can store nBits
+int intxAllocateBuffer(intxBuffer *buffer, int nBits);
+
+// Frees the data contained within buffer
+void intxFreeBuffer(intxBuffer *buffer);
