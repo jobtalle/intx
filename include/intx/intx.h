@@ -20,25 +20,29 @@
 
 #pragma once
 
+#include <stdint.h>
+
 // A position of an intx buffer
 typedef struct {
-	unsigned int byte, bit;
+	unsigned int byte;
+	unsigned char bit;
 } intxPosition;
 
 // The intxBuffer keeps track of a read or write process
 typedef struct {
-	void *data;
+	uint8_t *data;
+	unsigned int bytes;
 	intxPosition position;
 } intxBuffer;
 
 // Creates a buffer in the location pointed to by buffer which can store nBits
-int intxBufferAllocate(intxBuffer *buffer, int nBits);
+int intxBufferAllocate(intxBuffer *buffer, unsigned int nBits);
 
 // Frees the data contained within buffer
 void intxBufferFree(intxBuffer *buffer);
 
 // Writes nBits bits of signed integer into the buffer
-int intxBufferWriteUint(intxBuffer *buffer, unsigned int integer, int nBits);
+void intxBufferWriteUint(intxBuffer *buffer, uint32_t integer, unsigned int nBits);
 
 // Reads nBits from buffer as an unsigned integer
-unsigned int intxBufferReadUint(intxBuffer *buffer, int nBits);
+unsigned int intxBufferReadUint(intxBuffer *buffer, unsigned int nBits);
