@@ -55,4 +55,4 @@ void intxBufferWriteInt(intxBuffer *buffer, int integer, unsigned int nBits);
 // Reads nBits from buffer as an unsigned integer
 unsigned int intxBufferReadUint(intxBuffer *buffer, unsigned int nBits);
 // Reads nBits from buffer as a signed integer
-unsigned int intxBufferReadInt(intxBuffer *buffer, int nBits);
+int intxBufferReadInt(intxBuffer *buffer, int nBits);

@@ -76,7 +76,9 @@ void intxBufferWriteUint(intxBuffer *buffer, unsigned int integer, unsigned int 
 
 void intxBufferWriteInt(intxBuffer *buffer, int integer, unsigned int nBits)
 {
+	if(integer < 0 && nBits < sizeof(int)) integer |= 1 << (nBits - 1);
 
+	intxBufferWrite(buffer, (unsigned int)integer, nBits);
 }
 
 unsigned int intxBufferReadUint(intxBuffer *buffer, unsigned int nBits)
@@ -84,9 +86,13 @@ unsigned int intxBufferReadUint(intxBuffer *buffer, unsigned int nBits)
 	return intxBufferRead(buffer, nBits);
 }
 
-unsigned int intxBufferReadInt(intxBuffer *buffer, int nBits)
+int intxBufferReadInt(intxBuffer *buffer, int nBits)
 {
+	int result = intxBufferRead(buffer, nBits);
 
+	if(result & (1 << (nBits - 1))) result = (result & ~(1 << (nBits - 1))) - (1 << (nBits - 1));
+
+	return result;
 }
 
 #undef _intxMin
