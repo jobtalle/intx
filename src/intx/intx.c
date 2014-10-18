@@ -77,11 +77,11 @@ unsigned int intxBufferReadUint(intxBuffer *buffer, unsigned int nBits)
 
 int intxBufferReadInt(intxBuffer *buffer, int nBits)
 {
-	int result = intxBufferReadUint(buffer, nBits);
+	int integer = intxBufferReadUint(buffer, nBits);
 
-	if(result & (1 << (nBits - 1))) result = (result & ~(1 << (nBits - 1))) - (1 << (nBits - 1));
+	if(integer & (1 << (nBits - 1))) integer = (integer & ~(1 << (nBits - 1))) - (1 << (nBits - 1));
 
-	return result;
+	return integer;
 }
 
 #undef _intxMin
