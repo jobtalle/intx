@@ -29,13 +29,12 @@ void intxBufferFree(intxBuffer *buffer)
 
 void intxBufferWriteUint(intxBuffer *buffer, uint32_t integer, unsigned int nBits)
 {
-	unsigned int bufferSize = nBits;
 	unsigned int writeBits;
 
-	while(bufferSize) {
-		writeBits = _intxMin((unsigned int)(INTX_WORDSIZE - buffer->position.bit), bufferSize);
+	while(nBits) {
+		writeBits = _intxMin((unsigned int)(INTX_WORDSIZE - buffer->position.bit), nBits);
 		
-		buffer->data[buffer->position.word] |= ((integer >> (bufferSize - writeBits)) & mask[writeBits - 1]) << (INTX_WORDSIZE - writeBits - buffer->position.bit);
+		buffer->data[buffer->position.word] |= ((integer >> (nBits - writeBits)) & mask[writeBits - 1]) << (INTX_WORDSIZE - writeBits - buffer->position.bit);
 
 		buffer->position.bit += writeBits;
 		if(buffer->position.bit == INTX_WORDSIZE) {
@@ -43,18 +42,17 @@ void intxBufferWriteUint(intxBuffer *buffer, uint32_t integer, unsigned int nBit
 			buffer->position.word++;
 		}
 
-		bufferSize -= writeBits;
+		nBits -= writeBits;
 	}
 }
 
 uint32_t intxBufferReadUint(intxBuffer *buffer, unsigned int nBits)
 {
 	uint32_t integer = 0;
-	unsigned int bufferSize = nBits;
 	unsigned int readBits;
 
-	while(bufferSize) {
-		readBits = _intxMin((unsigned int)(INTX_WORDSIZE - buffer->position.bit), bufferSize);
+	while(nBits) {
+		readBits = _intxMin((unsigned int)(INTX_WORDSIZE - buffer->position.bit), nBits);
 		
 		integer <<= readBits;
 		integer |= (buffer->data[buffer->position.word] >> (INTX_WORDSIZE - buffer->position.bit - readBits)) & mask[readBits - 1];
@@ -65,7 +63,7 @@ uint32_t intxBufferReadUint(intxBuffer *buffer, unsigned int nBits)
 			buffer->position.word++;
 		}
 
-		bufferSize -= readBits;
+		nBits -= readBits;
 	}
 
 	return integer;
