@@ -33,8 +33,7 @@ static unsigned int intxBufferRead(intxBuffer *buffer, unsigned int nBits)
 	while(nBits) {
 		readBits = _intxMin((unsigned int)(INTX_WORDSIZE - buffer->position.bit), nBits);
 		
-		integer <<= readBits;
-		integer |= (buffer->data[buffer->position.word] >> (INTX_WORDSIZE - buffer->position.bit - readBits)) & mask[readBits - 1];
+		integer = (integer << readBits) | ((buffer->data[buffer->position.word] >> (INTX_WORDSIZE - buffer->position.bit - readBits)) & mask[readBits - 1]);
 		
 		buffer->position.bit += readBits;
 		if(buffer->position.bit == INTX_WORDSIZE) {
