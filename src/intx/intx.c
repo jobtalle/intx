@@ -2,7 +2,7 @@
 
 #include <stdlib.h>
 
-#define _intxMin(a,b) (a>b?b:a)
+#define _intxMin(a,b) (b ^ ((a ^ b) & -(a < b)))
 
 static intxWord mask[INTX_WORDSIZE];
 
