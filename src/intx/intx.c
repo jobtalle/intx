@@ -27,7 +27,7 @@ void intxBufferFree(intxBuffer *buffer)
 	free(buffer->data);
 }
 
-void intxBufferWriteUint(intxBuffer *buffer, uint32_t integer, unsigned int nBits)
+static void intxBufferWrite(intxBuffer *buffer, uint32_t integer, unsigned int nBits)
 {
 	unsigned int writeBits;
 
@@ -46,9 +46,9 @@ void intxBufferWriteUint(intxBuffer *buffer, uint32_t integer, unsigned int nBit
 	}
 }
 
-uint32_t intxBufferReadUint(intxBuffer *buffer, unsigned int nBits)
+static unsigned int intxBufferRead(intxBuffer *buffer, unsigned int nBits)
 {
-	uint32_t integer = 0;
+	unsigned int integer = 0;
 	unsigned int readBits;
 
 	while(nBits) {
@@ -67,6 +67,16 @@ uint32_t intxBufferReadUint(intxBuffer *buffer, unsigned int nBits)
 	}
 
 	return integer;
+}
+
+void intxBufferWriteUint(intxBuffer *buffer, unsigned int integer, unsigned int nBits)
+{
+	intxBufferWrite(buffer, integer, nBits);
+}
+
+unsigned int intxBufferReadUint(intxBuffer *buffer, unsigned int nBits)
+{
+	return intxBufferRead(buffer, nBits);
 }
 
 #undef _intxMin

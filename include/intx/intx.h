@@ -48,7 +48,7 @@ int intxBufferAllocate(intxBuffer *buffer, unsigned int nBits);
 void intxBufferFree(intxBuffer *buffer);
 
 // Writes nBits bits of signed integer into the buffer
-void intxBufferWriteUint(intxBuffer *buffer, uint32_t integer, unsigned int nBits);
+void intxBufferWriteUint(intxBuffer *buffer, unsigned int integer, unsigned int nBits);
 
 // Reads nBits from buffer as an unsigned integer
-uint32_t intxBufferReadUint(intxBuffer *buffer, unsigned int nBits);
+unsigned int intxBufferReadUint(intxBuffer *buffer, unsigned int nBits);
