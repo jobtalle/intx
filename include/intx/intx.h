@@ -28,7 +28,7 @@ typedef int_fast32_t intxWord;
 // The number of bits occupied by a single unit of storage
 #define INTX_WORDSIZE 32
 
-// A position of an intx buffer
+// The position of an intx buffer
 typedef struct {
 	unsigned int word;
 	unsigned char bit;
@@ -41,7 +41,7 @@ typedef struct {
 	intxPosition position;
 } intxBuffer;
 
-// Creates a buffer in the location pointed to by buffer which can store nBits
+// Creates a buffer in the location pointed to by buffer which can store nBits bits
 int intxBufferAllocate(intxBuffer *buffer, unsigned int nBits);
 
 // Frees the data contained within buffer
