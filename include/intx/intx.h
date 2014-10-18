@@ -45,4 +45,4 @@ void intxBufferFree(intxBuffer *buffer);
 void intxBufferWriteUint(intxBuffer *buffer, uint32_t integer, unsigned int nBits);
 
 // Reads nBits from buffer as an unsigned integer
-unsigned int intxBufferReadUint(intxBuffer *buffer, unsigned int nBits);
+uint32_t intxBufferReadUint(intxBuffer *buffer, unsigned int nBits);
