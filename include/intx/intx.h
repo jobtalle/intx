@@ -22,16 +22,21 @@
 
 #include <stdint.h>
 
+#define INTX_WORDSIZE 32
+
+// The unit of storage
+typedef int_fast32_t intxWord;
+
 // A position of an intx buffer
 typedef struct {
-	unsigned int byte;
+	unsigned int word;
 	unsigned char bit;
 } intxPosition;
 
 // The intxBuffer keeps track of a read or write process
 typedef struct {
-	uint8_t *data;
-	unsigned int bytes;
+	intxWord *data;
+	unsigned int words;
 	intxPosition position;
 } intxBuffer;
 
