@@ -76,7 +76,7 @@ void intxBufferWriteUint(intxBuffer *buffer, unsigned int integer, unsigned int 
 
 void intxBufferWriteInt(intxBuffer *buffer, int integer, unsigned int nBits)
 {
-	if(integer < 0 && nBits < sizeof(int)) integer |= 1 << (nBits - 1);
+	if(integer < 0) integer |= 1 << (nBits - 1);
 
 	intxBufferWrite(buffer, (unsigned int)integer, nBits);
 }
