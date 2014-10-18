@@ -2,32 +2,11 @@
 
 #include <stdlib.h>
 
-#define _intxMin(a,b) (b ^ ((a ^ b) & -(a < b)))
+#define _intxMin(a,b) a<b?a:b
 
 static intxWord mask[INTX_WORDSIZE];
 
-int intxBufferAllocate(intxBuffer *buffer, unsigned int nBits)
-{
-	if(mask[0] == 0) {
-		int i;
-		for(i = 0; i < INTX_WORDSIZE; i++) {
-			mask[i] = (2 << i) - 1;
-		}
-	}
-
-	buffer->position.word = 0;
-	buffer->position.bit = 0;
-	buffer->words = (nBits + INTX_WORDSIZE - 1) / INTX_WORDSIZE;
-
-	return (buffer->data = calloc(buffer->words, sizeof(intxWord))) != NULL;
-}
-
-void intxBufferFree(intxBuffer *buffer)
-{
-	free(buffer->data);
-}
-
-static void intxBufferWrite(intxBuffer *buffer, uint32_t integer, unsigned int nBits)
+static void intxBufferWrite(intxBuffer *buffer, unsigned int integer, unsigned int nBits)
 {
 	unsigned int writeBits;
 
@@ -69,14 +48,45 @@ static unsigned int intxBufferRead(intxBuffer *buffer, unsigned int nBits)
 	return integer;
 }
 
+int intxBufferAllocate(intxBuffer *buffer, unsigned int nBits)
+{
+	if(mask[0] == 0) {
+		int i;
+		for(i = 0; i < INTX_WORDSIZE; i++) {
+			mask[i] = (2 << i) - 1;
+		}
+	}
+
+	buffer->position.word = 0;
+	buffer->position.bit = 0;
+	buffer->words = (nBits + INTX_WORDSIZE - 1) / INTX_WORDSIZE;
+
+	return (buffer->data = calloc(buffer->words, sizeof(intxWord))) != NULL;
+}
+
+void intxBufferFree(intxBuffer *buffer)
+{
+	free(buffer->data);
+}
+
 void intxBufferWriteUint(intxBuffer *buffer, unsigned int integer, unsigned int nBits)
 {
 	intxBufferWrite(buffer, integer, nBits);
 }
 
+void intxBufferWriteInt(intxBuffer *buffer, int integer, unsigned int nBits)
+{
+
+}
+
 unsigned int intxBufferReadUint(intxBuffer *buffer, unsigned int nBits)
 {
 	return intxBufferRead(buffer, nBits);
+}
+
+unsigned int intxBufferReadInt(intxBuffer *buffer, int nBits)
+{
+
 }
 
 #undef _intxMin
