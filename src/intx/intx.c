@@ -19,7 +19,7 @@ int intxBufferAllocate(intxBuffer *buffer, unsigned int nBits)
 	buffer->position.bit = 0;
 	buffer->words = (nBits + INTX_WORDSIZE - 1) / INTX_WORDSIZE;
 
-	return (buffer->data = calloc(buffer->words, INTX_WORDSIZE)) != NULL;
+	return (buffer->data = calloc(buffer->words, sizeof(intxWord))) != NULL;
 }
 
 void intxBufferFree(intxBuffer *buffer)
@@ -62,15 +62,10 @@ uint32_t intxBufferReadUint(intxBuffer *buffer, unsigned int nBits)
 
 	while(bufferSize) {
 		readBits = _intxMin((unsigned int)(INTX_WORDSIZE - buffer->position.bit), bufferSize);
-		//printf("Rshift %d\n", (8 - buffer->position.bit - readBits));
+		
 		integer <<= readBits;
 		integer |= (buffer->data[buffer->position.word] >> (INTX_WORDSIZE - buffer->position.bit - readBits)) & mask[readBits - 1];
-		/*
-		for(int i = nBits - 1; i >= 0; i--) {
-			printf("%d",(integer >> i) & 1);
-		}
-		printf("\n");
-		*/
+		
 		buffer->position.bit += readBits;
 		if(buffer->position.bit == INTX_WORDSIZE) {
 			buffer->position.bit = 0;
