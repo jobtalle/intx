@@ -36,6 +36,9 @@ int main(int argc, char **argv)
 	for(i = 0; i < valueAmount; i++) {
 		printf("%d\n", intxBufferReadUint(&buffer, bitsPerInt));
 	}
+
+	// The buffer is freed
+	intxBufferFree(&buffer);
 	
 	return 0;
 }
