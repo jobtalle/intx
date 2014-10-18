@@ -34,22 +34,15 @@ void intxBufferWriteUint(intxBuffer *buffer, uint32_t integer, unsigned int nBit
 
 	while(bufferSize) {
 		writeBits = _intxMin((unsigned int)(INTX_WORDSIZE - buffer->position.bit), bufferSize);
-		//printf("Write %d bits\n", writeBits);
-
-		buffer->data[buffer->position.word] <<= writeBits;
-		buffer->data[buffer->position.word] |= (integer >> (bufferSize - writeBits)) & mask[writeBits - 1];
+		
+		buffer->data[buffer->position.word] |= ((integer >> (bufferSize - writeBits)) & mask[writeBits - 1]) << (INTX_WORDSIZE - writeBits - buffer->position.bit);
 
 		buffer->position.bit += writeBits;
 		if(buffer->position.bit == INTX_WORDSIZE) {
 			buffer->position.bit = 0;
 			buffer->position.word++;
 		}
-		/*
-		for(int i = writeBits - 1; i >= 0; i--) {
-			printf("%d", ((integer >> (bufferSize - writeBits)) >> i) & 1);
-		}
-		printf("\n");
-		*/
+
 		bufferSize -= writeBits;
 	}
 }
