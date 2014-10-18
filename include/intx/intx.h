@@ -22,10 +22,11 @@
 
 #include <stdint.h>
 
-#define INTX_WORDSIZE 32
-
-// The unit of storage
+// The unit of storage, ideally the target machine's word size
 typedef int_fast32_t intxWord;
+
+// The number of bits occupied by a single unit of storage
+#define INTX_WORDSIZE 32
 
 // A position of an intx buffer
 typedef struct {
