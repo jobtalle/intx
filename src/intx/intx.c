@@ -3,6 +3,13 @@
 #include <stdlib.h>
 
 #define _intxMin(a,b) a<b?a:b
+#define _intxGetBits() _intxMin((unsigned int)(INTX_WORDSIZE - buffer->position.bit), nBits)
+#define _intxRead(bits) buffer->position.bit += bits; \
+	if(buffer->position.bit == INTX_WORDSIZE) { \
+		buffer->position.bit = 0; \
+		buffer->position.word++; \
+	} \
+	nBits -= bits
 
 static intxWord mask[INTX_WORDSIZE];
 
@@ -29,20 +36,10 @@ void intxBufferFree(intxBuffer *buffer)
 
 void intxBufferWriteUint(intxBuffer *buffer, unsigned int integer, unsigned int nBits)
 {
-	unsigned int writeBits;
-
 	while(nBits) {
-		writeBits = _intxMin((unsigned int)(INTX_WORDSIZE - buffer->position.bit), nBits);
-
+		unsigned int writeBits = _intxGetBits();
 		buffer->data[buffer->position.word] |= ((integer >> (nBits - writeBits)) & mask[writeBits - 1]) << (INTX_WORDSIZE - writeBits - buffer->position.bit);
-
-		buffer->position.bit += writeBits;
-		if(buffer->position.bit == INTX_WORDSIZE) {
-			buffer->position.bit = 0;
-			buffer->position.word++;
-		}
-
-		nBits -= writeBits;
+		_intxRead(writeBits);
 	}
 }
 
@@ -56,20 +53,11 @@ void intxBufferWriteInt(intxBuffer *buffer, int integer, unsigned int nBits)
 unsigned int intxBufferReadUint(intxBuffer *buffer, unsigned int nBits)
 {
 	unsigned int integer = 0;
-	unsigned int readBits;
 
 	while(nBits) {
-		readBits = _intxMin((unsigned int)(INTX_WORDSIZE - buffer->position.bit), nBits);
-
+		unsigned int readBits = _intxGetBits();
 		integer = (integer << readBits) | ((buffer->data[buffer->position.word] >> (INTX_WORDSIZE - buffer->position.bit - readBits)) & mask[readBits - 1]);
-
-		buffer->position.bit += readBits;
-		if(buffer->position.bit == INTX_WORDSIZE) {
-			buffer->position.bit = 0;
-			buffer->position.word++;
-		}
-
-		nBits -= readBits;
+		_intxRead(readBits);
 	}
 
 	return integer;
@@ -83,5 +71,3 @@ int intxBufferReadInt(intxBuffer *buffer, int nBits)
 
 	return integer;
 }
-
-#undef _intxMin
