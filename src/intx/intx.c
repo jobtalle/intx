@@ -22,8 +22,7 @@ int intxBufferAllocate(intxBuffer *buffer, unsigned int nBits)
 		}
 	}
 
-	buffer->position.word = 0;
-	buffer->position.bit = 0;
+	buffer->position.word = buffer->position.bit = 0;
 	buffer->words = (nBits + INTX_WORDSIZE - 1) / INTX_WORDSIZE;
 
 	return (buffer->data = calloc(buffer->words, sizeof(intxWord))) != NULL;
