@@ -8,7 +8,7 @@
 //                              |_|_| |_|\__/_/\_\ 1.0                              //
 //                                                                                  //
 //                                                                                  //
-//             Copyright (C) 2014 \ Job Talle (jobtalle@ccore.org)                  //
+//             Copyright (C) 2014 \ Job Talle (job@ccore.org)                       //
 //__________________________________________________________________________________//
 //                                                                                  //
 //      This program is free software: you can redistribute it and/or modify        //
