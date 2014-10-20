@@ -11,14 +11,14 @@
 	} \
 	nBits -= bits
 
-static intxWord mask[INTX_WORDSIZE];
+static intxWord intxMask[INTX_WORDSIZE];
 
 int intxBufferAllocate(intxBuffer *buffer, unsigned int nBits)
 {
-	if(mask[0] == 0) {
+	if(intxMask[0] == 0) {
 		int i;
 		for(i = 0; i < INTX_WORDSIZE; i++) {
-			mask[i] = (2 << i) - 1;
+			intxMask[i] = (2 << i) - 1;
 		}
 	}
 
@@ -37,7 +37,7 @@ void intxBufferWriteUint(intxBuffer *buffer, unsigned int integer, unsigned int 
 {
 	while(nBits) {
 		unsigned int writeBits = _intxGetBits();
-		buffer->data[buffer->position.word] |= ((integer >> (nBits - writeBits)) & mask[writeBits - 1]) << (INTX_WORDSIZE - writeBits - buffer->position.bit);
+		buffer->data[buffer->position.word] |= ((integer >> (nBits - writeBits)) & intxMask[writeBits - 1]) << (INTX_WORDSIZE - writeBits - buffer->position.bit);
 		_intxRead(writeBits);
 	}
 }
@@ -55,7 +55,7 @@ unsigned int intxBufferReadUint(intxBuffer *buffer, unsigned int nBits)
 
 	while(nBits) {
 		unsigned int readBits = _intxGetBits();
-		integer = (integer << readBits) | ((buffer->data[buffer->position.word] >> (INTX_WORDSIZE - buffer->position.bit - readBits)) & mask[readBits - 1]);
+		integer = (integer << readBits) | ((buffer->data[buffer->position.word] >> (INTX_WORDSIZE - buffer->position.bit - readBits)) & intxMask[readBits - 1]);
 		_intxRead(readBits);
 	}
 
