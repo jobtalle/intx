@@ -13,7 +13,7 @@
 
 static intxWord intxMask[INTX_WORDSIZE];
 
-int intxBufferAllocate(intxBuffer *buffer, unsigned int nBits)
+int intxBufferAllocate(intxBuffer *buffer, intxWord *source, unsigned int nBits)
 {
 	if(intxMask[0] == 0) {
 		int i;
@@ -25,7 +25,13 @@ int intxBufferAllocate(intxBuffer *buffer, unsigned int nBits)
 	buffer->position.word = buffer->position.bit = 0;
 	buffer->words = (nBits + INTX_WORDSIZE - 1) / INTX_WORDSIZE;
 
-	return (buffer->data = calloc(buffer->words, sizeof(intxWord))) != NULL;
+	if(source == NULL) {
+		return (buffer->data = calloc(buffer->words, sizeof(intxWord))) != NULL;
+	}
+	else {
+		buffer->data = source;
+		return 0;
+	}
 }
 
 void intxBufferFree(intxBuffer *buffer)

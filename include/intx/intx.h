@@ -42,7 +42,7 @@ typedef struct {
 } intxBuffer;
 
 // Creates a buffer in the location pointed to by buffer which can store nBits bits
-int intxBufferAllocate(intxBuffer *buffer, unsigned int nBits);
+int intxBufferAllocate(intxBuffer *buffer, intxWord *source, unsigned int nBits);
 
 // Frees the data contained within buffer
 void intxBufferFree(intxBuffer *buffer);
