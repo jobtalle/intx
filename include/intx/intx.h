@@ -20,6 +20,11 @@
 
 #pragma once
 
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+
 #include <stdint.h>
 
 // The unit of storage, ideally the target machine's word size
@@ -56,3 +61,7 @@ void intxBufferWriteInt(intxBuffer *buffer, int integer, unsigned int nBits);
 unsigned int intxBufferReadUint(intxBuffer *buffer, unsigned int nBits);
 // Reads nBits from buffer as a signed integer
 int intxBufferReadInt(intxBuffer *buffer, int nBits);
+
+#ifdef __cplusplus
+}
+#endif
